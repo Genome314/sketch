@@ -2,31 +2,30 @@
 <head>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script>
-  $(document).ready(function() {
-    var c=document.getElementById("basic_sketch");
-    var ctx=c.getContext("2d");
-    var mousePosition = {'x': 0, 'y': 0};
 
-  $(document).bind('mousemove', function(e) {
-      mousePositionx = e.pageX;
-      mousePositiony = e.pageY
-  });
-  setInterval(function () {
-      document.getElementById("x").value = mousePositionx;
-      document.getElementById("y").value = mousePositiony;
-      ctx.beginPath();
-      ctx.arc(mousePositionx,mousePositiony,10,0,2*Math.PI);
-      ctx.stroke();
-      ctx.fill();
-    }, 0.1);
-
-});
+//
+//     var mousePosition = {'x': 0, 'y': 0};
+//
+//   $(document).bind('mousemove', function(e) {
+//       mousePositionx = e.pageX;
+//       mousePositiony = e.pageY
+//   });
+//   setInterval(function () {
+//       document.getelById("x").value = mousePositionx;
+//       document.getelById("y").value = mousePositiony;
+//       ctx.beginPath();
+//       ctx.arc(mousePositionx,mousePositiony,10,0,2*Math.PI);
+//       ctx.stroke();
+//       ctx.fill();
+//     }, 0.1);
+//
+// });
 
   </script>
 </head>
 <body onmousedown = "showCoords(event)">
   <div>
-    <canvas id="basic_sketch" width="800" height="300" style="border:1px solid #c3c3c3"></canvas>
+    <canvas id="sketch" width="500" height="500"></canvas>
     <br>
     <input type="button" id="show_coords" value="Show Co-ords">
     <br>
@@ -35,3 +34,38 @@
   </div>
 </body>
 </html>
+<script>
+var el = document.getElementById('sketch');
+var ctx = el.getContext('2d');
+
+ctx.lineWidth = 10;
+ctx.lineJoin = ctx.lineCap = 'round';
+
+var isDrawing, points = [ ];
+
+el.onmousedown = function(e) {
+  isDrawing = true;
+  points.push({ x: e.clientX, y: e.clientY });
+};
+
+el.onmousemove = function(e) {
+  if (!isDrawing) return;
+
+  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+  points.push({ x: e.clientX, y: e.clientY });
+
+  ctx.beginPath();
+   ctx.moveTo(points[0].x, points[0].y);
+   for (var i = 1; i < points.length; i++) {
+     ctx.lineTo(points[i].x, points[i].y);
+   }
+   ctx.stroke();
+ };
+
+ el.onmouseup = function() {
+   isDrawing = false;
+   points.length = 0;
+ };
+
+
+</script>
