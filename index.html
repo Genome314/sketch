@@ -1,11 +1,37 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <html>
-<body>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script>
+  $(document).ready(function() {
+    var c=document.getElementById("basic_sketch");
+    var ctx=c.getContext("2d");
+    var mousePosition = {'x': 0, 'y': 0};
+
+  $(document).bind('mousemove', function(e) {
+      mousePositionx = e.pageX;
+      mousePositiony = e.pageY
+  });
+  setInterval(function () {
+      document.getElementById("x").value = mousePositionx;
+      document.getElementById("y").value = mousePositiony;
+      ctx.beginPath();
+      ctx.arc(mousePositionx,mousePositiony,10,0,2*Math.PI);
+      ctx.stroke();
+      ctx.fill();
+    }, 0.1);
+
+});
+
+  </script>
+</head>
+<body onmousedown = "showCoords(event)">
   <div>
-    <canvas id="basic_sketch" width="800" height="300"></canvas>
-    <div>
-      Test change
-    </div>
+    <canvas id="basic_sketch" width="800" height="300" style="border:1px solid #c3c3c3"></canvas>
+    <br>
+    <input type="button" id="show_coords" value="Show Co-ords">
+    <br>
+    X position: <input type="text" id="x">
+    <br>Y position: <input type="text" id="y">
   </div>
 </body>
 </html>
